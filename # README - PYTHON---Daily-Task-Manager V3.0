@@ -1,0 +1,175 @@
+
+
+User
+► ADD A BUTTON TO THIS CODE, TO SAVE THE TASKS!
+
+-----------------
+
+import tkinter as tk
+
+def toggle_always_on_top():
+    root.attributes('-topmost', not root.attributes('-topmost'))
+
+# Create the main window
+root = tk.Tk()
+root.title("Daily Tasks")
+
+# List to store task entries
+tasks = []
+
+# Function to create new task entries
+def create_task():
+    if len(tasks) < 10:
+        task_number = len(tasks) + 1
+        frame = tk.Frame(root)
+        frame.pack()
+
+        label = tk.Label(frame, text=f"TASK {task_number}: ", width=10)
+        label.pack(side=tk.LEFT)
+
+        task_var = tk.StringVar()
+        entry = tk.Entry(frame, textvariable=task_var, width=40)
+        entry.pack(side=tk.LEFT)
+        
+        tasks.append(task_var)
+
+# Create 10 tasks initially
+for _ in range(10):
+    create_task()
+
+# Button to toggle always on top
+top_button = tk.Button(root, text="Toggle Always on Top", command=toggle_always_on_top)
+top_button.pack()
+
+# Start the GUI event loop
+root.mainloop()
+ChatGPT
+To add a button that saves the tasks to a file in your tkinter application, you can follow these steps:
+
+Create a Function to Save Tasks: Write a function that iterates over the tasks list and writes the values to a file.
+Add a Save Button: Create a button in the GUI that, when clicked, calls the function to save the tasks.
+Here's how you can modify your existing code to include these features:
+
+python
+Copy code
+import tkinter as tk
+
+def toggle_always_on_top():
+    root.attributes('-topmost', not root.attributes('-topmost'))
+
+def save_tasks():
+    with open("tasks.txt", "w") as file:
+        for task in tasks:
+            file.write(task.get() + "\n")
+    print("Tasks saved!")  # Optional: for confirmation in the console
+
+# Create the main window
+root = tk.Tk()
+root.title("Daily Tasks")
+
+# List to store task entries
+tasks = []
+
+# Function to create new task entries
+def create_task():
+    if len(tasks) < 10:
+        task_number = len(tasks) + 1
+        frame = tk.Frame(root)
+        frame.pack()
+
+        label = tk.Label(frame, text=f"TASK {task_number}: ", width=10)
+        label.pack(side=tk.LEFT)
+
+        task_var = tk.StringVar()
+        entry = tk.Entry(frame, textvariable=task_var, width=40)
+        entry.pack(side=tk.LEFT)
+        
+        tasks.append(task_var)
+
+# Create 10 tasks initially
+for _ in range(10):
+    create_task()
+
+# Button to toggle always on top
+top_button = tk.Button(root, text="Toggle Always on Top", command=toggle_always_on_top)
+top_button.pack()
+
+# Button to save tasks
+save_button = tk.Button(root, text="Save Tasks", command=save_tasks)
+save_button.pack()
+
+# Start the GUI event loop
+root.mainloop()
+With this code, when you click the "Save Tasks" button, the content of each task entry is saved to a file named tasks.txt. Each task is written on a new line in the file. You can find this file in the same directory where your Python script is located. If you want to save the file in a different location or with a different name, you can modify the file path in the save_tasks function. 😊📝💾
+
+User
+make it also load from "tasks.txt" on startup
+ChatGPT
+To load tasks from "tasks.txt" on startup, you can modify the program to read the file when it starts and populate the tasks list with the contents. Here's how you can do it:
+
+Create a Function to Load Tasks: Write a function that reads the file and creates task entries for each line.
+Call the Load Function on Startup: Invoke this function when the program starts to load the tasks.
+I'll modify your code to include these features:
+
+python
+Copy code
+import tkinter as tk
+import os
+
+def toggle_always_on_top():
+    root.attributes('-topmost', not root.attributes('-topmost'))
+
+def save_tasks():
+    with open("tasks.txt", "w") as file:
+        for task in tasks:
+            file.write(task.get() + "\n")
+    print("Tasks saved!")  # Optional: for confirmation in the console
+
+def load_tasks():
+    if os.path.exists("tasks.txt"):
+        with open("tasks.txt", "r") as file:
+            for line in file:
+                create_task(line.strip())
+
+# Create the main window
+root = tk.Tk()
+root.title("Daily Tasks")
+
+# List to store task entries
+tasks = []
+
+# Function to create new task entries
+def create_task(task_text=""):
+    if len(tasks) < 10:
+        task_number = len(tasks) + 1
+        frame = tk.Frame(root)
+        frame.pack()
+
+        label = tk.Label(frame, text=f"TASK {task_number}: ", width=10)
+        label.pack(side=tk.LEFT)
+
+        task_var = tk.StringVar(value=task_text)
+        entry = tk.Entry(frame, textvariable=task_var, width=40)
+        entry.pack(side=tk.LEFT)
+        
+        tasks.append(task_var)
+
+# Load tasks from file on startup
+load_tasks()
+
+# Button to toggle always on top
+top_button = tk.Button(root, text="Toggle Always on Top", command=toggle_always_on_top)
+top_button.pack()
+
+# Button to save tasks
+save_button = tk.Button(root, text="Save Tasks", command=save_tasks)
+save_button.pack()
+
+# Start the GUI event loop
+root.mainloop()
+In this updated code:
+
+The load_tasks function reads the "tasks.txt" file if it exists and creates a task for each line in the file.
+The create_task function is slightly modified to accept a task_text parameter, which is used to set the value of the task entry.
+The load_tasks function is called before creating the GUI elements to pre-populate the tasks list with the contents of the file.
+Now, when you start the application, it will automatically load tasks from "tasks.txt" and display them in the window. Remember to keep the number of tasks in the file within the limit set in your program (currently 10). 😊📖💻

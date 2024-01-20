@@ -1,0 +1,111 @@
+CHAT GPT CONVERSATION
+
+------------
+
+User
+create a python code that shows 10 editable daily tasks . 
+
+it should also needs an always on top button
+ChatGPT
+Creating a Python application with editable daily tasks and an "Always on Top" feature can be achieved using a GUI library like Tkinter. Here's a basic structure of how the code could look:
+
+Tkinter GUI: A simple and widely used library for building GUI applications in Python.
+Editable Tasks: Use Entry widgets to allow editing of tasks.
+Always on Top: A feature to keep the application window above all other windows.
+Here's a basic implementation:
+
+python
+Copy code
+import tkinter as tk
+
+def toggle_always_on_top():
+    root.attributes('-topmost', not root.attributes('-topmost'))
+
+# Create the main window
+root = tk.Tk()
+root.title("Daily Tasks")
+
+# List to store task entries
+tasks = []
+
+# Function to create new task entries
+def create_task():
+    if len(tasks) < 10:
+        task_var = tk.StringVar()
+        entry = tk.Entry(root, textvariable=task_var, width=50)
+        entry.pack()
+        tasks.append(task_var)
+
+# Create 10 tasks initially
+for _ in range(10):
+    create_task()
+
+# Button to toggle always on top
+top_button = tk.Button(root, text="Toggle Always on Top", command=toggle_always_on_top)
+top_button.pack()
+
+# Start the GUI event loop
+root.mainloop()
+To run this code, you'll need Python installed with Tkinter, which is typically included in standard Python distributions.
+
+How It Works:
+Creating Tasks: The create_task function creates an editable text entry for each task. It limits the number of tasks to 10.
+Always on Top Toggle: The toggle_always_on_top function toggles the window's 'always on top' status.
+Tkinter GUI: The application window is set up with a title, and the tasks and the toggle button are packed into it.
+This is a basic implementation. You can further enhance it by adding features like saving tasks, setting priorities, or customizing the appearance. ☺👩‍💻📝
+
+User
+modify it so it shows the text "TASK" and a number from 1 - 10 at the beginning of every row
+ChatGPT
+Certainly! To modify the code so that each task entry is prefixed with "TASK" followed by a number from 1 to 10, we can simply adjust the create_task function to include a label next to each entry. Here's the updated code:
+
+python
+Copy code
+import tkinter as tk
+
+def toggle_always_on_top():
+    root.attributes('-topmost', not root.attributes('-topmost'))
+
+# Create the main window
+root = tk.Tk()
+root.title("Daily Tasks")
+
+# List to store task entries
+tasks = []
+
+# Function to create new task entries
+def create_task():
+    if len(tasks) < 10:
+        task_number = len(tasks) + 1
+        frame = tk.Frame(root)
+        frame.pack()
+
+        label = tk.Label(frame, text=f"TASK {task_number}: ", width=10)
+        label.pack(side=tk.LEFT)
+
+        task_var = tk.StringVar()
+        entry = tk.Entry(frame, textvariable=task_var, width=40)
+        entry.pack(side=tk.LEFT)
+        
+        tasks.append(task_var)
+
+# Create 10 tasks initially
+for _ in range(10):
+    create_task()
+
+# Button to toggle always on top
+top_button = tk.Button(root, text="Toggle Always on Top", command=toggle_always_on_top)
+top_button.pack()
+
+# Start the GUI event loop
+root.mainloop()
+Changes Made:
+Frame for Each Task: Each task (a label and an entry widget) is now placed inside a Frame. This makes it easier to organize them side by side.
+Task Label: A label tk.Label is created for each task, displaying "TASK" followed by the task number.
+Entry Adjustment: The Entry widget's width is adjusted to fit alongside the label.
+This code will display each task with a label like "TASK 1", "TASK 2", and so on, next to an entry field where you can type the task details. The 'Always on Top' functionality remains the same. 😊📋🔢
+
+
+
+
+
